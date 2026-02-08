@@ -684,6 +684,25 @@ $.extend( $.validator, {
 		},
 
 		clean: function( selector ) {
+
+			// If a jQuery object is provided, return its first element directly.
+			if ( selector && selector.jquery ) {
+				return selector[ 0 ];
+			}
+
+			// If a DOM element or window is provided, return it as-is.
+			if ( selector && ( selector.nodeType || selector === selector.window ) ) {
+				return selector;
+			}
+
+			// For string selectors, always treat them as CSS selectors within the
+			// current form (or document as a fallback), avoiding jQuery's HTML parsing.
+			if ( typeof selector === "string" ) {
+				var context = this.currentForm || document;
+				return $( context ).find( selector )[ 0 ];
+			}
+
+			// Fallback: delegate to jQuery and return the first element (may be undefined).
 			return $( selector )[ 0 ];
 		},
 
