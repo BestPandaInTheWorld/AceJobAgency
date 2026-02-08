@@ -178,26 +178,26 @@ namespace AceJobAgency.Services
                 mailMessage.To.Add(new MailAddress(recipientEmail, recipientName));
                 smtpClient.Send(mailMessage);
 
-                Console.WriteLine($"✓ Password reset code sent to {recipientEmail}");
-                _logger.LogInformation($"[EMAIL OTP] Password reset code {code} sent to {recipientEmail}");
+                Console.WriteLine($"✓ Password reset code sent to {MaskEmail(recipientEmail)}");
+                _logger.LogInformation($"[EMAIL OTP] Password reset code sent to {MaskEmail(recipientEmail)}");
             }
             catch (Exception ex)
             {
                 _logger.LogError($"[EMAIL OTP] Password reset failed: {ex.Message}");
-                LogToConsole(recipientEmail, code);
+                LogToConsole(recipientEmail);
                 throw;
             }
 
             return Task.CompletedTask;
         }
 
-        private void LogToConsole(string email, string code)
+        private void LogToConsole(string email)
         {
+            var maskedEmail = MaskEmail(email);
             Console.WriteLine("╔════════════════════════════════════════════════════════╗");
             Console.WriteLine("║       OTP CODE (Console Fallback)                      ║");
             Console.WriteLine("╠════════════════════════════════════════════════════════╣");
-            Console.WriteLine($"║  Email: {email.PadRight(45)} ║");
-            Console.WriteLine($"║  Code: {code.PadRight(46)} ║");
+            Console.WriteLine($"║  Email: {maskedEmail.PadRight(45)} ║");
             Console.WriteLine($"║  Expires: 10 minutes{"".PadRight(34)} ║");
             Console.WriteLine("╚════════════════════════════════════════════════════════╝");
         }
