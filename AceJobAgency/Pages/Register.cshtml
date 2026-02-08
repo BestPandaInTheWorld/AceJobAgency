@@ -1,0 +1,694 @@
+﻿@page
+@model AceJobAgency.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register - Ace Job Agency";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4F46E5;
+            --primary-hover: #4338CA;
+            --text-dark: #1F2937;
+            --text-muted: #6B7280;
+            --border-color: #E5E7EB;
+            --error-color: #EF4444;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --info-color: #3B82F6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .auth-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Left side - Welcome section */
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            overflow: hidden;
+        }
+
+            .welcome-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: linear-gradient(30deg, rgba(255, 255, 255, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.05) 87.5%, rgba(255, 255, 255, 0.05)), linear-gradient(150deg, rgba(255, 255, 255, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.05) 87.5%, rgba(255, 255, 255, 0.05)), linear-gradient(30deg, rgba(255, 255, 255, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.05) 87.5%, rgba(255, 255, 255, 0.05)), linear-gradient(150deg, rgba(255, 255, 255, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.05) 87.5%, rgba(255, 255, 255, 0.05));
+                background-size: 80px 140px;
+                background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+                opacity: 0.3;
+            }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-title {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Right side - Form section */
+        .form-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: #FFFFFF;
+        }
+
+        .auth-form-container {
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+            .auth-form-container::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .auth-form-container::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .auth-form-container::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 10px;
+            }
+
+                .auth-form-container::-webkit-scrollbar-thumb:hover {
+                    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+                }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .alert-box {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            background: #FEE2E2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            pointer-events: none;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 2.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: #FFFFFF;
+        }
+
+            .form-input:focus,
+            .form-select:focus {
+                outline: none;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            }
+
+            .form-input::placeholder {
+                color: #9CA3AF;
+            }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 100px;
+            padding-top: 0.875rem;
+            padding-left: 1rem;
+        }
+
+        .form-input[type="file"] {
+            padding-left: 1rem;
+            padding-top: 0.625rem;
+            padding-bottom: 0.625rem;
+        }
+
+            .form-input[type="file"]::file-selector-button {
+                background: #F3F4F6;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 0.375rem;
+                margin-right: 1rem;
+                cursor: pointer;
+                font-weight: 500;
+                color: var(--text-dark);
+                transition: all 0.2s ease;
+            }
+
+                .form-input[type="file"]::file-selector-button:hover {
+                    background: var(--border-color);
+                }
+
+        .text-muted {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 0.375rem;
+            display: block;
+        }
+
+        .text-danger {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 0.375rem;
+            display: block;
+        }
+
+        .password-strength {
+            margin-top: 0.75rem;
+        }
+
+        .progress-bar {
+            height: 5px;
+            background-color: #F3F4F6;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .strength-weak {
+            background-color: var(--error-color);
+        }
+
+        .strength-medium {
+            background-color: var(--warning-color);
+        }
+
+        .strength-good {
+            background-color: var(--info-color);
+        }
+
+        .strength-strong {
+            background-color: var(--success-color);
+        }
+
+        .strength-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+            .strength-text.weak {
+                color: var(--error-color);
+            }
+
+            .strength-text.medium {
+                color: var(--warning-color);
+            }
+
+            .strength-text.good {
+                color: var(--info-color);
+            }
+
+            .strength-text.strong {
+                color: var(--success-color);
+            }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            margin-top: 1rem;
+        }
+
+            .btn-primary:hover {
+                background: var(--primary-hover);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+
+            .btn-primary:active {
+                transform: translateY(1px);
+            }
+
+            .btn-primary:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+        .form-divider {
+            margin: 1.5rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+            .form-divider::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--border-color);
+            }
+
+            .form-divider span {
+                position: relative;
+                background: white;
+                padding: 0 1rem;
+                color: var(--text-muted);
+                font-size: 0.875rem;
+            }
+
+        .form-links {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .form-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+            .form-link:hover {
+                color: var(--primary-hover);
+                text-decoration: underline;
+            }
+
+        .spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @@keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 992px) {
+            .auth-container {
+                flex-direction: column;
+            }
+
+            .welcome-section {
+                min-height: 30vh;
+                padding: 2rem;
+            }
+
+            .welcome-title {
+                font-size: 3rem;
+            }
+
+            .form-section {
+                min-height: 70vh;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .welcome-section {
+                padding: 1.5rem;
+            }
+
+            .welcome-title {
+                font-size: 2.5rem;
+            }
+
+            .form-section {
+                padding: 1.5rem;
+            }
+
+            .form-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Left side - Welcome section -->
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1 class="welcome-title">Join us today</h1>
+            </div>
+        </div>
+
+        <!-- Right side - Form section -->
+        <div class="form-section">
+            <div class="auth-form-container">
+                <div class="form-header">
+                    <h2 class="form-title">Create your account</h2>
+                    <p class="form-subtitle">Fill in your details to get started</p>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" id="registerForm">
+                    <div asp-validation-summary="ModelOnly" class="alert-box"></div>
+
+                    <!-- Name Fields -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="RInput.FirstName" class="form-label">First Name</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input asp-for="RInput.FirstName" class="form-input" placeholder="John" />
+                            </div>
+                            <span asp-validation-for="RInput.FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="RInput.LastName" class="form-label">Last Name</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input asp-for="RInput.LastName" class="form-input" placeholder="Doe" />
+                            </div>
+                            <span asp-validation-for="RInput.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Gender & NRIC -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="RInput.Gender" class="form-label">Gender</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-venus-mars input-icon"></i>
+                                <select asp-for="RInput.Gender" class="form-select">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="RInput.Gender" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="RInput.NRIC" class="form-label">NRIC</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-id-card input-icon"></i>
+                                <input asp-for="RInput.NRIC" class="form-input" placeholder="S1234567A" />
+                            </div>
+                            <span asp-validation-for="RInput.NRIC" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label asp-for="RInput.Email" class="form-label">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input asp-for="RInput.Email" class="form-input" type="email" placeholder="your.email@example.com" />
+                        </div>
+                        <span asp-validation-for="RInput.Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="form-group">
+                        <label asp-for="RInput.DateOfBirth" class="form-label">Date of Birth</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar input-icon"></i>
+                            <input asp-for="RInput.DateOfBirth" class="form-input" type="date" />
+                        </div>
+                        <span asp-validation-for="RInput.DateOfBirth" class="text-danger"></span>
+                    </div>
+
+                    <!-- Password Fields -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="RInput.Password" class="form-label">Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input asp-for="RInput.Password" class="form-input" type="password" id="passwordInput" />
+                            </div>
+                            <span asp-validation-for="RInput.Password" class="text-danger"></span>
+                            <small class="text-muted">Min 12 characters with uppercase, lowercase, number & special character</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="RInput.ConfirmPassword" class="form-label">Confirm Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input asp-for="RInput.ConfirmPassword" class="form-input" type="password" />
+                            </div>
+                            <span asp-validation-for="RInput.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Password Strength -->
+                    <div class="password-strength" id="passwordStrength" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="strength-text"></span>
+                    </div>
+
+                    <!-- Resume Upload -->
+                    <div class="form-group">
+                        <label asp-for="RInput.Resume" class="form-label">Resume</label>
+                        <input asp-for="RInput.Resume" class="form-input" type="file" accept=".pdf,.docx" id="resumeInput" />
+                        <span asp-validation-for="RInput.Resume" class="text-danger"></span>
+                        <small class="text-muted">PDF or DOCX only, maximum 5MB</small>
+                    </div>
+
+                    <!-- About Me -->
+                    <div class="form-group">
+                        <label asp-for="RInput.WhoAmI" class="form-label">About Me</label>
+                        <div class="input-wrapper">
+                            <textarea asp-for="RInput.WhoAmI" class="form-input" placeholder="Tell us about yourself..."></textarea>
+                        </div>
+                        <span asp-validation-for="RInput.WhoAmI" class="text-danger"></span>
+                    </div>
+
+                    <!-- Hidden reCAPTCHA -->
+                    <input type="hidden" asp-for="RInput.RecaptchaToken" id="recaptchaToken" />
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        Create my account
+                    </button>
+
+                    <div class="form-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <!-- Links -->
+                    <div class="form-links">
+                        <p style="margin: 0;">
+                            Already have an account?
+                            <a href="/Login" class="form-link">Sign in here</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://www.google.com/recaptcha/api.js?render=@Model.RecaptchaSiteKey"></script>
+
+    <script>
+        // Password strength checker
+        const passwordInput = document.getElementById('passwordInput');
+        const strengthContainer = document.getElementById('passwordStrength');
+        const progressFill = strengthContainer.querySelector('.progress-fill');
+        const strengthText = strengthContainer.querySelector('.strength-text');
+
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+
+            if (password.length === 0) {
+                strengthContainer.style.display = 'none';
+                return;
+            }
+
+            strengthContainer.style.display = 'block';
+
+            let strength = 0;
+            if (password.length >= 12) strength += 25;
+            if (/[a-z]/.test(password)) strength += 25;
+            if (/[A-Z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 12.5;
+            if (/[^a-zA-Z0-9]/.test(password)) strength += 12.5;
+
+            progressFill.style.width = strength + '%';
+
+            progressFill.className = 'progress-fill';
+            strengthText.className = 'strength-text';
+
+            if (strength < 50) {
+                progressFill.classList.add('strength-weak');
+                strengthText.classList.add('weak');
+                strengthText.textContent = 'Weak password';
+            } else if (strength < 75) {
+                progressFill.classList.add('strength-medium');
+                strengthText.classList.add('medium');
+                strengthText.textContent = 'Medium strength';
+            } else if (strength < 100) {
+                progressFill.classList.add('strength-good');
+                strengthText.classList.add('good');
+                strengthText.textContent = 'Good password';
+            } else {
+                progressFill.classList.add('strength-strong');
+                strengthText.classList.add('strong');
+                strengthText.textContent = 'Strong password';
+            }
+        });
+
+        // Form submission with reCAPTCHA
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span>Creating account...';
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute('@Model.RecaptchaSiteKey', {action: 'register'}).then(function(token) {
+                    document.getElementById('recaptchaToken').value = token;
+                    document.getElementById('registerForm').submit();
+                }).catch(function(error) {
+                    alert('reCAPTCHA verification failed. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Create my account';
+                });
+            });
+        });
+
+        // File validation
+        document.getElementById('resumeInput').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const maxSize = 5 * 1024 * 1024;
+                if (file.size > maxSize) {
+                    alert('File size must not exceed 5MB');
+                    this.value = '';
+                    return;
+                }
+
+                const validExtensions = ['.pdf', '.docx'];
+                const fileName = file.name.toLowerCase();
+                const isValid = validExtensions.some(ext => fileName.endsWith(ext));
+                if (!isValid) {
+                    alert('Only PDF and DOCX files are allowed');
+                    this.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h2><i class="fas fa-exclamation-triangle"></i> An Error Occurred</h2>
+                </div>
+                <div class="card-body">
+                    <h4>We're sorry, but something went wrong.</h4>
+                    <p>Our team has been notified and is working to fix the issue.</p>
+
+                    @if (Model.ShowRequestId)
+                    {
+                        <p>
+                            <strong>Request ID:</strong> <code>@Model.RequestId</code>
+                        </p>
+                    }
+
+                    <hr />
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Return to Homepage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,435 @@
+﻿@page
+@model AceJobAgency.Pages.IndexModel
+@{
+    ViewData["Title"] = "Dashboard - Ace Job Agency";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4F46E5;
+            --primary-hover: #4338CA;
+            --danger-color: #EF4444;
+            --warning-color: #F59E0B;
+            --success-color: #10B981;
+            --text-dark: #1F2937;
+            --text-muted: #6B7280;
+            --border-color: #E5E7EB;
+            --bg-light: #F9FAFB;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            background: var(--bg-light);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .alert-warning {
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FDE68A;
+            border-radius: 0.75rem;
+            padding: 1rem 1.25rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+            .alert-warning a {
+                color: inherit;
+                text-decoration: underline;
+                font-weight: 600;
+            }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            color: white;
+        }
+
+            .card-header h2 {
+                font-size: 1.875rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+
+            .card-header p {
+                opacity: 0.95;
+                font-size: 0.95rem;
+            }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+            .info-table tr {
+                border-bottom: 1px solid var(--border-color);
+            }
+
+                .info-table tr:last-child {
+                    border-bottom: none;
+                }
+
+            .info-table th {
+                font-weight: 600;
+                color: var(--text-muted);
+                text-align: left;
+                padding: 0.875rem 1rem 0.875rem 0;
+                font-size: 0.875rem;
+                width: 40%;
+            }
+
+            .info-table td {
+                color: var(--text-dark);
+                padding: 0.875rem 0;
+                font-size: 0.95rem;
+            }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .badge-success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .badge-info {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .badge-danger {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .text-muted-small {
+            color: var(--text-muted);
+            font-size: 0.825rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .about-card {
+            background: var(--bg-light);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+            .about-card p {
+                margin: 0;
+                color: var(--text-dark);
+                line-height: 1.6;
+            }
+
+        .empty-state {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .security-card {
+            background: var(--bg-light);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+            .security-card p {
+                margin-bottom: 0.875rem;
+                color: var(--text-dark);
+                font-size: 0.95rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+                .security-card p:last-child {
+                    margin-bottom: 0;
+                }
+
+            .security-card strong {
+                color: var(--text-muted);
+                font-weight: 600;
+                font-size: 0.875rem;
+            }
+
+        .btn-download {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+            .btn-download:hover {
+                background: var(--primary-color);
+                color: white;
+            }
+
+        .divider {
+            margin: 2rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color) 0%, #D97706 100%);
+            color: white;
+        }
+
+            .btn-warning:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                color: white;
+            }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color) 0%, #DC2626 100%);
+            color: white;
+        }
+
+            .btn-danger:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                color: white;
+            }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .card-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        @* Password Expiry Warning *@
+        @if (TempData["PasswordWarning"] != null)
+        {
+            <div class="alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>@TempData["PasswordWarning"] <a asp-page="/ChangePassword">Change it now</a></span>
+            </div>
+        }
+
+        @* Dashboard Card *@
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>Welcome, @Model.CurrentUser.FirstName @Model.CurrentUser.LastName!</h2>
+                <p>Your Ace Job Agency Member Dashboard</p>
+            </div>
+            <div class="card-body">
+                <div class="info-grid">
+                    @* Personal Information *@
+                    <div>
+                        <h5 class="section-title">
+                            <i class="fas fa-user"></i> Personal Information
+                        </h5>
+                        <table class="info-table">
+                            <tr>
+                                <th>Email</th>
+                                <td>@Model.CurrentUser.Email</td>
+                            </tr>
+                            <tr>
+                                <th>Full Name</th>
+                                <td>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</td>
+                            </tr>
+                            <tr>
+                                <th>Gender</th>
+                                <td>@Model.CurrentUser.Gender</td>
+                            </tr>
+                            <tr>
+                                <th>NRIC</th>
+                                <td>
+                                    <span class="badge badge-success">@Model.DecryptedNRIC</span>
+                                    <small class="text-muted-small">
+                                        <i class="fas fa-lock"></i> Decrypted from encrypted database storage
+                                    </small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Date of Birth</th>
+                                <td>@Model.CurrentUser.DateOfBirth.ToShortDateString()</td>
+                            </tr>
+                            @if (!string.IsNullOrEmpty(Model.CurrentUser.ResumePath))
+                            {
+                                <tr>
+                                    <th>Resume</th>
+                                    <td>
+                                        <a href="@Model.CurrentUser.ResumePath" target="_blank" class="btn-download">
+                                            <i class="fas fa-file-download"></i> Download Resume
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <th>Member Since</th>
+                                <td>@Model.CurrentUser.CreatedAt.ToShortDateString()</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    @* About Me & Security *@
+                    <div>
+                        <h5 class="section-title">
+                            <i class="fas fa-info-circle"></i> Who Am I
+                        </h5>
+                        <div class="about-card">
+                            @if (!string.IsNullOrEmpty(Model.CurrentUser.WhoAmI))
+                            {
+                                <p>@Model.CurrentUser.WhoAmI</p>
+                            }
+                            else
+                            {
+                                <p class="empty-state">No description provided.</p>
+                            }
+                        </div>
+
+                        <h5 class="section-title" style="margin-top: 2rem;">
+                            <i class="fas fa-shield-alt"></i> Account Security
+                        </h5>
+                        <div class="security-card">
+                            <p>
+                                <strong>Last Password Change:</strong>
+                                <span>@Model.CurrentUser.LastPasswordChangeDate.ToShortDateString()</span>
+                            </p>
+                            <p>
+                                <strong>Password Expires In:</strong>
+                                @if (Model.DaysUntilPasswordExpiry > 0)
+                                {
+                                    <span class="badge badge-info">@Model.DaysUntilPasswordExpiry days</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-danger">Expired</span>
+                                }
+                            </p>
+                            <p>
+                                <strong>Session Status:</strong>
+                                <span class="badge badge-success">Active</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                @* Action Buttons *@
+                <div class="divider"></div>
+                <div class="action-buttons">
+                    <a asp-page="/ChangePassword" class="btn btn-warning">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                    <a asp-page="/Logout" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

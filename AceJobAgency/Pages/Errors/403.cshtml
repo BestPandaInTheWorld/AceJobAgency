@@ -1,0 +1,28 @@
+﻿@page
+@{
+    ViewData["Title"] = "403 - Access Denied";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <h1 class="display-1 text-danger">403</h1>
+                    <h2 class="mb-4">Access Denied</h2>
+                    <p class="lead">You don't have permission to access this resource.</p>
+                    <p>Please contact your administrator if you believe you should have access.</p>
+
+                    <div class="mt-4">
+                        <a href="/" class="btn btn-primary btn-lg me-2">
+                            <i class="fas fa-home"></i> Go to Homepage
+                        </a>
+                        <a asp-page="/Login" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
